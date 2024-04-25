@@ -12,6 +12,7 @@ use App\Models\State;
 use App\Models\Street;
 use App\Models\Zone;
 use Carbon\Carbon;
+use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -111,6 +112,42 @@ class StateResource extends Resource
                     Forms\Components\Textarea::make('reference')
                         ->columnSpanFull(),
                 ]),
+
+                Map::make('location')
+                    ->columnSpanFull()
+                    ->mapControls([
+                        'mapTypeControl'    => false,
+                        'scaleControl'      => true,
+                        'streetViewControl' => true,
+                        'rotateControl'     => true,
+                        'fullscreenControl' => true,
+                        'searchBoxControl'  => false, // creates geocomplete field inside map
+                        'zoomControl'       => false,
+                    ])
+                    ->type()
+                    ->height(fn () => '400px') // map height (width is controlled by Filament options)
+                    ->defaultZoom(20) // default zoom level when opening form
+                    ->autocomplete('full_address') // field on form to use as Places geocompletion field
+                    ->autocompleteReverse(true) // reverse geocode marker location to autocomplete field
+                    ->reverseGeocode([
+                        'street' => '%n %S',
+                        'city' => '%L',
+                        'state' => '%A1',
+                        'zip' => '%z',
+                    ]) // reverse geocode marker location to form fields, see notes below
+                    ->debug() // prints reverse geocode format strings to the debug console
+                    ->defaultLocation([13.4984111785888670, -89.0291366577148]) // default for new forms
+                    ->draggable() // allow dragging to move marker
+                    ->clickable(false) // allow clicking to move marker
+                    ->geolocate() // adds a button to request device location and set map marker accordingly
+//                    ->geolocateLabel('Get Location') // overrides the default label for geolocate button
+//                    ->geolocateOnLoad(true, false) // geolocate on load, second arg 'always' (default false, only for new form))
+//                    ->layers([
+//                        'https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml',
+//                    ]) // array of KML layer URLs to add to the map
+//                    ->geoJson('https://fgm.test/storage/AGEBS01.geojson') // GeoJSON file, URL or JSON
+//                    ->geoJsonContainsField('geojson')
+                   ,
 
                 Forms\Components\Fieldset::make('group_complementation')->schema([
                     Forms\Components\DatePicker::make('register')
