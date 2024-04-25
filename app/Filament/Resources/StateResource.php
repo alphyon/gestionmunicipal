@@ -124,7 +124,6 @@ class StateResource extends Resource
                         'searchBoxControl'  => false, // creates geocomplete field inside map
                         'zoomControl'       => false,
                     ])
-                    ->type()
                     ->height(fn () => '400px') // map height (width is controlled by Filament options)
                     ->defaultZoom(20) // default zoom level when opening form
                     ->autocomplete('full_address') // field on form to use as Places geocompletion field
