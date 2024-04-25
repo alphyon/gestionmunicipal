@@ -17,7 +17,12 @@ class PassageResource extends Resource
 {
     protected static ?string $model = Passage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'mdi-fence';
+
+    protected static ?string $navigationGroup = 'Manejo de territorios';
+    protected static ?string $label = 'Pasaje';
+    protected static ?string $pluralLabel = 'Pasajes';
+    protected static ?int $navigationSort=4;
 
     public static function form(Form $form): Form
     {

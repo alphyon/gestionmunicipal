@@ -28,6 +28,7 @@ return new class extends Migration
             $table->text('reference')->nullable();
             $table->date('register');
             $table->float('measure');
+            $table->foreignId('owner_id')->constrained('owners');
             $table->timestamps();
         });
     }

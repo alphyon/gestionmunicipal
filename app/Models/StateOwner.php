@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class StateOwner extends Model
 {
     use HasFactory;
+    protected $fillable =[
+      'state_id',
+      'owner_id'
+    ];
 }

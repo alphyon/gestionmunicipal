@@ -17,8 +17,11 @@ class SpotResource extends Resource
 {
     protected static ?string $model = Spot::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'mdi-garage-open';
+    protected static ?string $navigationGroup = 'Cobros';
+    protected static ?string $label = 'espacio municpal (puesto)';
+    protected static ?string $pluralLabel = 'puestos';
+    protected static ?int $navigationSort=2;
     public static function form(Form $form): Form
     {
         return $form

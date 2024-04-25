@@ -17,7 +17,11 @@ class OwnerResource extends Resource
 {
     protected static ?string $model = Owner::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'mdi-account-card-outline';
+    protected static ?string $navigationGroup = 'Administración General';
+    protected static ?string $label = 'Propietario';
+    protected static ?string $pluralLabel = 'Propietarios';
+    protected static ?int $navigationSort=0;
 
     public static function form(Form $form): Form
     {

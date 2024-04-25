@@ -8,6 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Owner extends Model
 {
     use HasFactory;
+
+    protected $fillable =[
+        'first_name',
+        'last_name',
+        'AKA',
+        'document',
+        'doc_type',
+        'email',
+        'phone',
+        'isr',
+        'status',
+    ];
     public function getFullIdentification(): String
     {
         return $this->first_name.' '.$this->last_name .' - '. $this->document;

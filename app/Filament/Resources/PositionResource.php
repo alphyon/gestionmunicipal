@@ -17,8 +17,11 @@ class PositionResource extends Resource
 {
     protected static ?string $model = Position::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'mdi-file-certificate-outline';
+    protected static ?string $navigationGroup = 'Administración';
+    protected static ?string $label = 'cargo';
+    protected static ?string $pluralLabel = 'cargos';
+    protected static ?int $navigationSort=1;
     public static function form(Form $form): Form
     {
         return $form

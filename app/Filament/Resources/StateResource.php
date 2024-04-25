@@ -24,13 +24,16 @@ class StateResource extends Resource
 {
     protected static ?string $model = State::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'mdi-home-city-outline';
+    protected static ?string $navigationGroup = 'Cobros';
+    protected static ?string $label = 'inmueble';
+    protected static ?string $pluralLabel = 'inmuebles';
+    protected static ?int $navigationSort=0;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('owner')
+                Forms\Components\Select::make('owner_id')
 
                 ->relationship('owner','first_name' )
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => $record->first_name . ' ' . $record->last_name. ' - '. $record->document)

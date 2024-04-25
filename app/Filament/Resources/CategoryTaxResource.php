@@ -17,16 +17,22 @@ class CategoryTaxResource extends Resource
 {
     protected static ?string $model = CategoryTax::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'mdi-label-percent';
+    protected static ?string $navigationGroup = 'Gestion impuestos';
+    protected static ?string $label = 'categoría';
+    protected static ?string $pluralLabel = 'categorias';
+    protected static ?int $navigationSort=1;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('nombre')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('status')
+                    ->label('activo')
+                    ->default(true)
                     ->required(),
             ]);
     }
@@ -36,8 +42,10 @@ class CategoryTaxResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('nombre')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('status')
+                    ->label('activo')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

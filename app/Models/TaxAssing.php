@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TaxAssing extends Model
 {
     use HasFactory;
+    protected $fillable =[
+        'taxable_type',
+        'taxable_id',
+        'tax_id',
+    ];
 }

@@ -17,23 +17,36 @@ class TaxResource extends Resource
 {
     protected static ?string $model = Tax::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'mdi-sack-percent';
+    protected static ?string $navigationGroup = 'Gestion impuestos';
+    protected static ?string $label = 'impuesto';
+    protected static ?string $pluralLabel = 'impuestos';
+    protected static ?int $navigationSort=1;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nombre')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('active')
+                Forms\Components\Select::make('category_tax_id')
+                    ->label('Categoría')
+                    ->relationship('categoryTax', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('category_tax_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('type')
+                    ->options([
+                        'mt'=>'Metros',
+                        'porcent'=>'Porcentaje',
+                        'fix'=>'fijo'
+                    ])
+                    ->label('Tipo')
+                    ->required(),
+                Forms\Components\Toggle::make('active')
+                    ->label('Activo')
+                    ->default(true)
+                    ->required(),
             ]);
     }
 

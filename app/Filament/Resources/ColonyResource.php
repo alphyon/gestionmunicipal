@@ -17,7 +17,11 @@ class ColonyResource extends Resource
 {
     protected static ?string $model = Colony::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'mdi-home-group';
+    protected static ?string $navigationGroup = 'Manejo de territorios';
+    protected static ?string $label = 'Colonia';
+    protected static ?string $pluralLabel = 'Colonias';
+    protected static ?int $navigationSort=3;
 
     public static function form(Form $form): Form
     {

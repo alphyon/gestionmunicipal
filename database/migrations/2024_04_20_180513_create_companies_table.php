@@ -26,9 +26,9 @@ return new class extends Migration {
             $table->unsignedInteger('avenue');
             $table->unsignedInteger('passage');
             $table->unsignedInteger('colony');
-            $table->string('block');
-            $table->string('num_house');
-            $table->string('reference');
+            $table->string('block')->nullable();
+            $table->string('num_house')->nullable();
+            $table->string('reference')->nullable();
             $table->string('phone');
             $table->date('operation_start');
             $table->boolean('declare')->default(false);

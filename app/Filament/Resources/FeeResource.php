@@ -17,29 +17,42 @@ class FeeResource extends Resource
 {
     protected static ?string $model = Fee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'mdi-hand-coin-outline';
+    protected static ?string $navigationGroup = 'Gestion impuestos';
+    protected static ?string $label = 'tasa';
+    protected static ?string $pluralLabel = 'tasas';
+    protected static ?int $navigationSort=2;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('tax_id')
+                    ->relationship('taxes', 'name')
+                    ->label('Impuesto')
+                    ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->label('Nombre')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('quantity')
+                    ->label('Cantidad')
                     ->required()
                     ->numeric(),
-                Forms\Components\Toggle::make('status')
-                    ->required(),
                 Forms\Components\DatePicker::make('date_init')
+                    ->label('Fecha Inicio')
                     ->required(),
-                Forms\Components\DatePicker::make('date_end'),
-                Forms\Components\DatePicker::make('period'),
+                Forms\Components\DatePicker::make('date_end')
+                ->label('Fecha Fin'),
+                Forms\Components\TextInput::make('period')
+                ->label('Periodo'),
                 Forms\Components\TextInput::make('adjust')
+                    ->label('Ajuste')
+                    ->hint('Variacion del impuesto')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('tax_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Toggle::make('status')
+                    ->label('Estado')
+                    ->default(true)
+                    ->required(),
             ]);
     }
 

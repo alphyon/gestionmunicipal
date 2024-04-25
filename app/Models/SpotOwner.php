@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class SpotOwner extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'spot_id',
+        'owner_id',
+    ];
 }

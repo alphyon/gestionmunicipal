@@ -18,7 +18,7 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->date('date_init');
             $table->date('date_end')->nullable();
-            $table->date('period')->nullable();
+            $table->unsignedInteger('period')->nullable();
             $table->string('adjust')->nullable()
                 ->comment('define discount or increase');
             $table->foreignId('tax_id')->constrained('taxes');

@@ -17,7 +17,15 @@ class AvenueResource extends Resource
 {
     protected static ?string $model = Avenue::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'mdi-road-variant';
+
+    protected static ?string $navigationGroup = 'Manejo de territorios';
+    protected static ?string $label = 'Avenida';
+
+    protected static ?string $pluralLabel='Avenidas';
+    protected static ?int $navigationSort=1;
+
+
 
     public static function form(Form $form): Form
     {
