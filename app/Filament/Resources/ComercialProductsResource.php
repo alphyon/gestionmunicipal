@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ComercialProdcutsResource\Pages;
 use App\Filament\Resources\ComercialProdcutsResource\RelationManagers;
-use App\Models\ComercialProdcuts;
+use App\Models\ComercialProducts;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ComercialProdcutsResource extends Resource
+class ComercialProductsResource extends Resource
 {
-    protected static ?string $model = ComercialProdcuts::class;
+    protected static ?string $model = ComercialProducts::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Administración General';
@@ -26,7 +26,7 @@ class ComercialProdcutsResource extends Resource
     {
         return $form
             ->schema([
-                //
+
             ]);
     }
 
