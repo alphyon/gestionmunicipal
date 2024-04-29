@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('taxable_type')
                 ->comment('reference state,spot,company');
             $table->unsignedInteger('taxable_id');
-            $table->foreignId('tax_id')->constrained('taxes');
+            $table->foreignId('fee_id')->constrained('fees');
             $table->boolean('expiration')->default(false);
             $table->integer('cycle_days')->default(0);
             $table->timestamps();
