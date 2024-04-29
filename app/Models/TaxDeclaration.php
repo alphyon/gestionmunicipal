@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TaxDeclaration extends Model
 {
@@ -16,4 +18,10 @@ class TaxDeclaration extends Model
         'date_record',
         'status',
     ];
+
+
+    public function company() : BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id','id');
+    }
 }

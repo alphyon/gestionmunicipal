@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('spot_products', function (Blueprint $table) {
             $table->id();
             $table->string('category')->nullable();
+            $table->string('name')->nullable();
             $table->string('family')->nullable();
             $table->foreignId('spot_id')->constrained('spots');
             $table->timestamps();

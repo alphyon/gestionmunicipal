@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use PhpParser\Builder\Declaration;
 
 class Company extends Model
 {
@@ -31,4 +35,21 @@ class Company extends Model
         'operation_start',
         'declare',
     ];
+
+
+    public function taxable(): MorphMany
+    {
+        return $this->morphMany(FeeAssign::class, 'taxable');
+    }
+
+    public function taxDeclaration(): HasMany
+    {
+       return $this->hasMany(TaxDeclaration::class,'company_id','id');
+    }
+
+    public function legals(): HasMany
+    {
+        return $this->hasMany(LegalCompany::class,'company_id','id');
+    }
+
 }

@@ -20,9 +20,14 @@ class Owner extends Model
         'isr',
         'status',
     ];
-    public function getFullIdentification(): String
+    public function getFullIdentificationAttribute(): String
     {
         return $this->first_name.' '.$this->last_name .' - '. $this->document;
+    }
+
+    public function getFullNameAttribute(): String
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function setFirstNameAttribute($value): void

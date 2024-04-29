@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tax_assigns', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('taxable_type')
-                ->comment('reference state,spot,company');
-            $table->unsignedInteger('taxable_id');
-            $table->foreignId('tax_id')->constrained('taxes');
+            $table->date('expiration');
+            $table->string('status');//payed,late,partial,
+            $table->integer('partial')->default(0);
+            $table->foreignId('tax_assign_id')
+                ->constrained('tax_assigns');
+            $table->integer('late')->default(0);
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tax_assigns');
+        Schema::dropIfExists('payments');
     }
 };

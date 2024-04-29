@@ -56,9 +56,11 @@ class CompanyResource extends Resource
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('NRC')
+                        ->label('NRC')
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('NIT')
+                        ->label('NIT')
                         ->required()
                         ->maxLength(255),
                 ]),
@@ -114,6 +116,7 @@ class CompanyResource extends Resource
 
                 Forms\Components\Fieldset::make('otros')->schema([
                     Forms\Components\Toggle::make('declare')
+                        ->label('Declara Impuestos')
                         ->required(),
                     Forms\Components\Toggle::make('status')
                         ->label('Activo')
@@ -122,7 +125,6 @@ class CompanyResource extends Resource
                 ])
 
             ]);
-
     }
 
     public static function table(Table $table): Table
@@ -130,55 +132,27 @@ class CompanyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('commercial_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('commercial_activity')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('file')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('NRC')
+                    ->label('Nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('NIT')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                    ->label('NIT')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('status')
+                    ->label('Estado')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('address')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('street')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('avenue')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('passage')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('colony')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('block')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('num_house')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('reference')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Telefono')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('operation_start')
-                    ->date()
-                    ->sortable(),
                 Tables\Columns\IconColumn::make('declare')
+                    ->label('declara')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Modificado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -188,7 +162,6 @@ class CompanyResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -197,10 +170,21 @@ class CompanyResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\TaxableRelationManager::class,
+            RelationManagers\DeclarationsRelationManager::class,
+            RelationManagers\LegalsRelationManager::class
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCompanies::route('/'),
+            'index' => Pages\ListCompanies::route('/'),
+            'create' => Pages\CreateCompany::route('/create'),
+            'edit' => Pages\EditCompany::route('/{record}/edit'),
         ];
     }
 }
