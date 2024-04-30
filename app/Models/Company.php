@@ -52,4 +52,9 @@ class Company extends Model
         return $this->hasMany(LegalCompany::class,'company_id','id');
     }
 
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
+
 }

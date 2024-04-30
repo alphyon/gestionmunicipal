@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->boolean('status')->default(true);
-             $table->foreignId('district_id')->constrained('districts');
-            $table->timestamps();
+        Schema::create('district_user', function (Blueprint $table) {
+            $table->foreignId('district_id')->constrained('districts');
+            $table->foreignId('user_id')->constrained('users');
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('district_user');
     }
 };

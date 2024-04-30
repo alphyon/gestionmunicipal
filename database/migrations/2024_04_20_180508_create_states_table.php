@@ -29,6 +29,7 @@ return new class extends Migration
             $table->date('register');
             $table->float('measure');
             $table->foreignId('owner_id')->constrained('owners');
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Passage;
 use App\Models\Street;
 use App\Models\Zone;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -25,6 +26,7 @@ class CompanyResource extends Resource
     protected static ?string $label = 'empresa';
     protected static ?string $pluralLabel = 'empresas';
     protected static ?int $navigationSort = 0;
+    protected static ?string $tenantRelationshipName = 'companies';
 
     public static function form(Form $form): Form
     {
@@ -84,24 +86,24 @@ class CompanyResource extends Resource
                         ->maxLength(255),
                     Forms\Components\Select::make('zone')
                         ->label('Zona')
-                        ->options(Zone::all()->pluck('name', 'id'))
+                        ->options(Zone::where('district_id','=',Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false)
                         ->required(),
                     Forms\Components\Select::make('street')
                         ->label('Calle')
-                        ->options(Street::all()->pluck('name', 'id'))
+                        ->options(Street::where('district_id','=',Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false),
                     Forms\Components\Select::make('avenue')
                         ->label('Avenida')
-                        ->options(Avenue::all()->pluck('name', 'id'))
+                        ->options(Avenue::where('district_id','=',Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false),
                     Forms\Components\Select::make('colony')
                         ->label('Colonia')
-                        ->options(Colony::all()->pluck('name', 'id'))
+                        ->options(Colony::where('district_id','=',Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false),
                     Forms\Components\Select::make('passage')
                         ->label('Pasaje')
-                        ->options(Passage::all()->pluck('name', 'id'))
+                        ->options(Passage::where('district_id','=',Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false),
                     Forms\Components\TextInput::make('block')
                         ->maxLength(255),

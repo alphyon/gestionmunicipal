@@ -19,10 +19,15 @@ class LegalCompany extends Model
         'phone',
         'address',
         'company_id',
+        'district_id'
     ];
 
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
     }
 }

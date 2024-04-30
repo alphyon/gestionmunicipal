@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Owner extends Model
 {
@@ -37,5 +38,9 @@ class Owner extends Model
     public function setLastNameAttribute($value): void
     {
         $this->attributes['last_name'] = mb_strtoupper($value);
+    }
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
     }
 }

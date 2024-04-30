@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('spot_id')->constrained('spots');
             $table->foreignId('owner_id')->constrained('owners');
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

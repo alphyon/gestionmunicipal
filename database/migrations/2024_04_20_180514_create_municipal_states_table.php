@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->string('manager')->nullable();
             $table->unsignedInteger('zone')->nullable();
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

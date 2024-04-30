@@ -17,11 +17,17 @@ class TaxDeclaration extends Model
         'monthly_amount_tax',
         'date_record',
         'status',
+        'district_id'
     ];
 
 
     public function company() : BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id','id');
+    }
+
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
     }
 }

@@ -15,7 +15,8 @@ class FeeAssign extends Model
         'taxable_id',
         'fee_id',
         'cycle_days',
-        'expiration'
+        'expiration',
+        'district_id'
     ];
 
     public function taxable(): \Illuminate\Database\Eloquent\Relations\MorphTo{
@@ -25,5 +26,10 @@ class FeeAssign extends Model
     public function fee() :BelongsTo
     {
         return $this->belongsTo(Fee::class,'fee_id','id');
+    }
+
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
     }
 }

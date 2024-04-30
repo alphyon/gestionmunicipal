@@ -30,4 +30,9 @@ class Spot extends Model
     {
         return $this->belongsTo(MunicipalState::class, 'municipal_state_id');
     }
+
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
 }

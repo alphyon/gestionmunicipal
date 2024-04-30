@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address')->nullable();
             $table->foreignId('company_id')->constrained('companies');
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

@@ -29,7 +29,8 @@ class State extends Model
         'reference',
         'register',
         'measure',
-        'owner_id'
+        'owner_id',
+        'district_id'
     ];
 
     public function owner(): BelongsTo
@@ -68,6 +69,9 @@ class State extends Model
         return $this->hasMany(CoOwner::class);
     }
 
-
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
 
 }

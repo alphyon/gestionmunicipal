@@ -21,6 +21,10 @@ class Tax extends Model
 {
     return $this->belongsTo(CategoryTax::class);
 }
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
 
 
 }

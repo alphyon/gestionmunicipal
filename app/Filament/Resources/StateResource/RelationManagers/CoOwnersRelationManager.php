@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\StateResource\RelationManagers;
 
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -40,7 +41,10 @@ class CoOwnersRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()->mutateFormDataUsing(function ($data){
+                    $data['district_id'] =Filament::getTenant()->id;
+                    return $data;
+                }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

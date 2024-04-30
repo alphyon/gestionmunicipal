@@ -15,10 +15,12 @@ class CreateState extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
+        $data['district_id'] = filament()->getTenant()->id;
         $state = static::getModel()::create($data);
         StateOwner::create([
            'state_id' => $state->id,
            'owner_id' => $state->owner_id,
+            'district_id' => $state->district_id,
         ]);
         return $state;
     }

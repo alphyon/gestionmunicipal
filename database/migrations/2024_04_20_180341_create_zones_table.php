@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('status')->default(true);
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('phone');
             $table->boolean('isr')->default(false);
             $table->boolean('status')->default(true);
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

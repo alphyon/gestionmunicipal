@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('family')->nullable();
             $table->foreignId('spot_id')->constrained('spots');
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

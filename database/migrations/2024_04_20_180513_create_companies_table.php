@@ -32,6 +32,7 @@ return new class extends Migration {
             $table->string('phone');
             $table->date('operation_start');
             $table->boolean('declare')->default(false);
+            $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

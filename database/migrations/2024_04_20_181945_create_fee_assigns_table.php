@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('fee_id')->constrained('fees');
             $table->boolean('expiration')->default(false);
             $table->integer('cycle_days')->default(0);
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

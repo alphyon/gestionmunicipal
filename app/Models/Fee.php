@@ -24,4 +24,8 @@ class Fee extends Model
     {
         return $this->belongsTo(Tax::class, 'tax_id', 'id');
     }
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
 }

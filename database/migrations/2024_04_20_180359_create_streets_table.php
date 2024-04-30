@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('course')->nullable();// definition of position cardinal
             $table->boolean('status')->default(true);
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

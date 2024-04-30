@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('adjust')->nullable()
                 ->comment('define discount or increase');
             $table->foreignId('tax_id')->constrained('taxes');
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

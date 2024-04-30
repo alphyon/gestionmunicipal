@@ -16,9 +16,10 @@ return new class extends Migration
             $table->date('expiration');
             $table->string('status');//payed,late,partial,
             $table->integer('partial')->default(0);
-            $table->foreignId('tax_assign_id')
-                ->constrained('tax_assigns');
+            $table->foreignId('fee_assign_id')
+                ->constrained('fee_assigns');
             $table->integer('late')->default(0);
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CompanyResource\RelationManagers;
 
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -28,7 +29,7 @@ class TaxableRelationManager extends RelationManager
                     ->required(),
                 Forms\Components\TextInput::make('cycle_days')->required()
                 ->label('Ciclo de cobro'),
-                Forms\Components\Toggle::make('expiration')->label('expiración(genera mora)')
+                Forms\Components\Toggle::make('expiration')->label('expiración(genera mora)'),
             ]);
     }
 
@@ -46,7 +47,10 @@ class TaxableRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()->mutateFormDataUsing(function ($data){
+                    $data['district_id'] =Filament::getTenant()->id;
+                    return $data;
+                }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

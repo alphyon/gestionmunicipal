@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('active')->default(true);
             $table->string('type')->comment('measure,fijo, otro');
             $table->foreignId('category_tax_id')->constrained('category_taxes');
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

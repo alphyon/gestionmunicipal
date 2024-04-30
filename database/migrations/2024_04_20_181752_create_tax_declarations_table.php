@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('monthly_amount_tax');
             $table->date('date_record');
             $table->string('status');//pagado, no pagado
+             $table->foreignId('district_id')->constrained('districts');
             $table->timestamps();
         });
     }

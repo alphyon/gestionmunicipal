@@ -17,4 +17,9 @@ class Zone extends Model
          'status',
     ];
 
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
+
 }
