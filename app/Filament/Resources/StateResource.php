@@ -36,7 +36,7 @@ class StateResource extends Resource
             ->schema([
                 Forms\Components\Select::make('owner_id')
                     ->label('Dueño')
-                ->relationship('owner','last_name' )
+                    ->relationship('owner','last_name' )
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => $record->full_identification)
                     ->createOptionForm([
                     Forms\Components\TextInput::make('first_name')
@@ -173,7 +173,7 @@ class StateResource extends Resource
 
                 Forms\Components\Fieldset::make('Datos complementarios')->schema([
                     Forms\Components\DatePicker::make('register')
-                        ->label('Fecha registrda')
+                        ->label('Fecha registrada')
                         ->native(false)
                         ->maxDate(now())
                         ->weekStartsOnMonday()
@@ -194,26 +194,24 @@ class StateResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('type')
-                    ->label('Tipo')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('#')->rowIndex(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('owner.full_name')
-                    ->label('Dueño'),
-                Tables\Columns\TextColumn::make('zone')
-                    ->label('Zona')
+                    ->label('Dueño')->wrap(),
+                Tables\Columns\TextColumn::make('zones.name')
+                    ->label('Zona')->wrap()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('street')
-                    ->label('Calle')
+                Tables\Columns\TextColumn::make('streets.name')
+                    ->label('Calle')->wrap()
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('avenue')
-                    ->label('Avenida')
+                Tables\Columns\TextColumn::make('avenues.name')
+                    ->label('Avenida')->wrap()
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('colony')
-                    ->label('Colonia / Barrio')
+                Tables\Columns\TextColumn::make('colonies.name')
+                    ->label('Colonia / Barrio')->wrap()
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('measure')
@@ -236,16 +234,14 @@ class StateResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TaxableRelationManager::class,
+            RelationManagers\CoOwnersRelationManager::class,
         ];
     }
 

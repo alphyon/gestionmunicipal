@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->boolean('status')->default(true);
             $table->foreignId('municipal_state_id')
                 ->constrained('municipal_states');
+            $table->foreignId('owner_id')->constrained('owners');
             $table->timestamps();
         });
     }

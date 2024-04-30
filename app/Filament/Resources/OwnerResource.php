@@ -28,33 +28,41 @@ class OwnerResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('first_name')
+                    ->label('Nombres')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('last_name')
+                    ->label('Apellidos')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('AKA')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('document')
-                    ->required()
+                    ->label('Conocido por:')
                     ->maxLength(255),
                 Forms\Components\Select::make('doc_type')
+                    ->label('Tipo de Documento')
                     ->options([
                         'dui'=>"DUI",
                         'nit'=>"NIT",
                         'passport'=>"Pasaporte",
                     ])->native(false)
                     ->required(),
+                Forms\Components\TextInput::make('document')
+                    ->label('Número de documento')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
+                    ->label('Teléfono')
                     ->tel()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('isr')
+                    ->label('Declara impuestos')
                     ->required(),
                 Forms\Components\Hidden::make('status')
+                    ->label('Estado')
                     ->default(true),
             ]);
     }
@@ -63,22 +71,21 @@ class OwnerResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('#')->rowIndex(),
                 Tables\Columns\TextColumn::make('first_name')
+                    ->label('Nombres')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('AKA')
+                    ->label('Apellidos')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('document')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('doc_type')
+                    ->label('Documento')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Teléfono')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('isr')
-                    ->boolean(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -98,9 +105,6 @@ class OwnerResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 

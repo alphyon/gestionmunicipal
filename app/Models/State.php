@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class State extends Model
 {
@@ -36,31 +37,36 @@ class State extends Model
         return $this->belongsTo(Owner::class);
     }
 
-    public function state_owner(): BelongsToMany
+
+    public function zones(): BelongsTo
     {
-        return $this->belongsToMany(Owner::class, 'state_owners', 'state_id', 'owner_id');
+        return $this->belongsTo(Zone::class,'zone','id');
     }
 
-    public function zone(): BelongsTo
+    public function streets(): BelongsTo
     {
-        return $this->belongsTo(Zone::class);
+        return $this->belongsTo(Street::class,'street','id');
     }
 
-    public function street(): BelongsTo
+    public function colonies(): BelongsTo
     {
-        return $this->belongsTo(Street::class);
+        return $this->belongsTo(Colony::class,'colony','id');
     }
 
-    public function colony(): BelongsTo
+    public function avenues(): BelongsTo
     {
-        return $this->belongsTo(Colony::class);
+        return $this->belongsTo(Avenue::class,'avenue','id');
     }
 
-    public function avanue(): BelongsTo
+    public function taxable(): MorphMany
     {
-        return $this->belongsTo(Avenue::class);
+        return $this->morphMany(FeeAssign::class, 'taxable');
     }
 
+    public function coOwners(): HasMany
+    {
+        return $this->hasMany(CoOwner::class);
+    }
 
 
 
