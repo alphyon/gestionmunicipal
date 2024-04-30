@@ -16,6 +16,7 @@ class District extends Model
       'status'
     ];
 
+
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class,'district_user','district_id','user_id');
