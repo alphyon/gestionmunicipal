@@ -19,8 +19,7 @@ class CreateState extends CreateRecord
         $state = static::getModel()::create($data);
         StateOwner::create([
            'state_id' => $state->id,
-           'owner_id' => $state->owner_id,
-            'district_id' => $state->district_id,
+           'owner_id' => $state->owner_id, 'district_id' => $state->district_id,
         ]);
         return $state;
     }

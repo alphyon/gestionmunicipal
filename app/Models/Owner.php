@@ -20,6 +20,7 @@ class Owner extends Model
         'phone',
         'isr',
         'status',
+        'district_id'
     ];
     public function getFullIdentificationAttribute(): String
     {

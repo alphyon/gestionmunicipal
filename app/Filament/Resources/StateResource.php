@@ -6,13 +6,12 @@ use App\Filament\Resources\StateResource\Pages;
 use App\Filament\Resources\StateResource\RelationManagers;
 use App\Models\Avenue;
 use App\Models\Colony;
-use App\Models\Owner;
 use App\Models\Passage;
 use App\Models\State;
 use App\Models\Street;
 use App\Models\Zone;
-use Carbon\Carbon;
 use Cheesegrits\FilamentGoogleMaps\Fields\Map;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -29,57 +28,59 @@ class StateResource extends Resource
     protected static ?string $navigationGroup = 'Cobros';
     protected static ?string $label = 'inmueble';
     protected static ?string $pluralLabel = 'inmuebles';
-    protected static ?int $navigationSort=0;
+    protected static ?int $navigationSort = 0;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('owner_id')
                     ->label('Dueño')
-                    ->relationship('owner','last_name' )
-                    ->getOptionLabelFromRecordUsing(fn (Model $record) => $record->full_identification)
+                    ->relationship('owner', 'last_name')
+                    ->getOptionLabelFromRecordUsing(fn(Model $record) => $record->full_identification)
                     ->createOptionForm([
-                    Forms\Components\TextInput::make('first_name')
-                        ->label('Nombres')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('last_name')
-                        ->label('Apellidos')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('AKA')
-                        ->label('Conocido por')
-                        ->maxLength(255),
+                        Forms\Components\TextInput::make('first_name')
+                            ->label('Nombres')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('last_name')
+                            ->label('Apellidos')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('AKA')
+                            ->label('Conocido por')
+                            ->maxLength(255),
                         Forms\Components\Select::make('doc_type')
                             ->label('Tipo de documento')
                             ->options([
-                                'dui'=>"DUI",
-                                'nit'=>"NIT",
-                                'passport'=>"Pasaporte",
+                                'dui' => "DUI",
+                                'nit' => "NIT",
+                                'passport' => "Pasaporte",
                             ])->native(false)
                             ->required(),
-                    Forms\Components\TextInput::make('document')
-                        ->label('Número de documento')
-                        ->required()
-                        ->maxLength(255),
+                        Forms\Components\TextInput::make('document')
+                            ->label('Número de documento')
+                            ->required()
+                            ->maxLength(255),
 
-                    Forms\Components\TextInput::make('email')
-                        ->label('Email')
-                        ->email()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('phone')
-                        ->label('Teléfono')
-                        ->tel()
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\Toggle::make('isr')
-                        ->label('Declara Impuestos')
-                        ->required(),
-                    Forms\Components\Hidden::make('status')
-                        ->label('Activo')
-                        ->default(true),
-                ])->columnSpanFull()
-                ->native(false)->searchable(),
+                        Forms\Components\TextInput::make('email')
+                            ->label('Email')
+                            ->email()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->label('Teléfono')
+                            ->tel()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Toggle::make('isr')
+                            ->label('Declara Impuestos')
+                            ->required(),
+                        Forms\Components\Hidden::make('status')
+                            ->label('Activo')
+                            ->default(true),
+                        Forms\Components\Hidden::make('district_id')->default(fn() => filament()->getTenant()->id)
+                    ])->columnSpanFull()
+                    ->native(false)->searchable(),
                 Forms\Components\Fieldset::make('Administración municipal')->schema([
                     Forms\Components\Select::make('type')
                         ->label('Tipo de uso')
@@ -104,25 +105,25 @@ class StateResource extends Resource
                 Forms\Components\Fieldset::make('Datos de Ubicación')->schema([
                     Forms\Components\Select::make('zone')
                         ->label('Zona')
-                        ->options(Zone::all()->pluck('name', 'id'))
+                        ->options(Zone::where('district_id', '=', Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false)
                         ->required(),
 
                     Forms\Components\Select::make('street')
                         ->label('Calle')
-                        ->options(Street::all()->pluck('name', 'id'))
+                        ->options(Street::where('district_id', '=', Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false),
                     Forms\Components\Select::make('avenue')
                         ->label('Avenida')
-                        ->options(Avenue::all()->pluck('name', 'id'))
+                        ->options(Avenue::where('district_id', '=', Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false),
                     Forms\Components\Select::make('colony')
-                        ->label('Colonia')
-                        ->options(Colony::all()->pluck('name', 'id'))
+                        ->label('Colonia / Barrio')
+                        ->options(Colony::where('district_id', '=', Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false),
                     Forms\Components\Select::make('passage')
-                        ->label('Pasaje / Barrio')
-                        ->options(Passage::all()->pluck('name', 'id'))
+                        ->label('Pasaje')
+                        ->options(Passage::where('district_id', '=', Filament::getTenant()->id)->pluck('name', 'id'))
                         ->native(false),
                     Forms\Components\TextInput::make('block')
                         ->label('Bloque')
@@ -136,41 +137,72 @@ class StateResource extends Resource
                 ]),
 
                 Map::make('location')
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                        $set('latitude', $state['lat']);
+                        $set('longitude', $state['lng']);
+                    })
                     ->label('Ubicación mapa')
                     ->columnSpanFull()
                     ->mapControls([
-                        'mapTypeControl'    => false,
-                        'scaleControl'      => true,
+                        'mapTypeControl' => false,
+                        'scaleControl' => true,
                         'streetViewControl' => true,
-                        'rotateControl'     => true,
-                        'fullscreenControl' => true,
-                        'searchBoxControl'  => false, // creates geocomplete field inside map
-                        'zoomControl'       => false,
-                    ])
-                    ->height(fn () => '400px') // map height (width is controlled by Filament options)
-                    ->defaultZoom(20) // default zoom level when opening form
-                    ->autocomplete('full_address') // field on form to use as Places geocompletion field
-                    ->autocompleteReverse(true) // reverse geocode marker location to autocomplete field
-                    ->reverseGeocode([
-                        'street' => '%n %S',
-                        'city' => '%L',
-                        'state' => '%A1',
-                        'zip' => '%z',
-                    ]) // reverse geocode marker location to form fields, see notes below
-                    ->debug() // prints reverse geocode format strings to the debug console
+                        'rotateControl' => true,
+                        'searchBoxControl' => false, // creates geocomplete field inside map
+                        'zoomControl' => false,
+                    ])->drawingControl(true)
+                    ->DrawingField('data_geo_json')
+                    ->height(fn() => '400px') // map height (width is controlled by Filament options)
+                    ->defaultZoom(20) // default zoom level when opening form// prints reverse geocode format strings to the debug console
                     ->defaultLocation([13.4984111785888670, -89.0291366577148]) // default for new forms
                     ->draggable() // allow dragging to move marker
                     ->clickable(false) // allow clicking to move marker
                     ->geolocate() // adds a button to request device location and set map marker accordingly
-//                    ->geolocateLabel('Get Location') // overrides the default label for geolocate button
-//                    ->geolocateOnLoad(true, false) // geolocate on load, second arg 'always' (default false, only for new form))
-//                    ->layers([
-//                        'https://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml',
-//                    ]) // array of KML layer URLs to add to the map
-//                    ->geoJson('https://fgm.test/storage/AGEBS01.geojson') // GeoJSON file, URL or JSON
-//                    ->geoJsonContainsField('geojson')
-                   ,
-
+//
+//                    ->geoJson(function () {
+//                        return <<<EOT
+//{
+//  "type": "FeatureCollection",
+//  "features": [
+//    {
+//      "type": "Feature",
+//      "properties": {},
+//      "geometry": {
+//        "type": "Polygon",
+//        "coordinates": [
+//          [
+//            [
+//              -89.02925610351562,
+//              13.4983412034822
+//            ],
+//            [
+//              -89.02925610351562,
+//              13.498480153423747
+//            ],
+//            [
+//              -89.02901649475098,
+//              13.498480153423747
+//            ],
+//            [
+//              -89.02901649475098,
+//              13.4983412034822
+//            ],
+//            [
+//              -89.02925610351562,
+//              13.4983412034822
+//            ]
+//          ]
+//        ]
+//      }
+//    }
+//  ]
+//}
+//EOT;
+//                    })
+//->geoJsonContainsField('geojson'),
+,
+                Forms\Components\Hidden::make('data_geo_json'),
                 Forms\Components\Fieldset::make('Datos complementarios')->schema([
                     Forms\Components\DatePicker::make('register')
                         ->label('Fecha registrada')

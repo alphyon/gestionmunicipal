@@ -30,7 +30,8 @@ class State extends Model
         'register',
         'measure',
         'owner_id',
-        'district_id'
+        'district_id',
+        'data_geo_json'
     ];
 
     public function owner(): BelongsTo

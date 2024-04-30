@@ -71,6 +71,7 @@ class SpotResource extends Resource
                         Forms\Components\Hidden::make('status')
                             ->label('Activo')
                             ->default(true),
+                        Forms\Components\Hidden::make('district_id')->default(fn() => filament()->getTenant()->id)
                     ])->columnSpanFull()
                     ->native(false)->searchable(),
                 Forms\Components\Checkbox::make('have_manager')

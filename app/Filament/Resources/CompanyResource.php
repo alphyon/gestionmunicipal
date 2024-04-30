@@ -46,13 +46,15 @@ class CompanyResource extends Resource
                         ->required()
                         ->maxLength(255),
                     Forms\Components\DatePicker::make('operation_start')
+                        ->label('Inicio de operaciones')
+                        ->maxDate(now())
                         ->required(),
                     Forms\Components\TextInput::make('type')
                         ->label('Tipo')
                         ->required()
                         ->maxLength(255),
                 ]),
-                Forms\Components\Fieldset::make('registros')->schema([
+                Forms\Components\Fieldset::make('Registros Legales')->schema([
                     Forms\Components\TextInput::make('file')
                         ->label('Archivo')
                         ->required()
@@ -78,7 +80,7 @@ class CompanyResource extends Resource
                 ]),
 
 
-                Forms\Components\Fieldset::make('group_location')->schema([
+                Forms\Components\Fieldset::make('Ubicación')->schema([
                     Forms\Components\Textarea::make('address')
                         ->columnSpanFull()
                         ->label('Dirección')
@@ -108,7 +110,7 @@ class CompanyResource extends Resource
                     Forms\Components\TextInput::make('block')
                         ->maxLength(255),
                     Forms\Components\TextInput::make('number_house')
-                        ->label('Numero')
+                        ->label('Número')
                         ->maxLength(255),
                     Forms\Components\Textarea::make('reference')
                         ->label('complemento')
