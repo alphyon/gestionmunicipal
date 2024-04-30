@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('block')->nullable();
             $table->string('number_house')->nullable();
             $table->text('reference')->nullable();
+            $table->json('data_geo_json');
             $table->date('register');
             $table->float('measure');
             $table->foreignId('owner_id')->constrained('owners');
